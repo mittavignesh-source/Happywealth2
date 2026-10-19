@@ -8,6 +8,22 @@
 <meta name="theme-color" content="#FBFCFB">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+/* lite mode: older / slower phones get a lighter, smoother version of the page */
+(function(){try{
+  var q=location.search, n=navigator, d=document.documentElement;
+  var force=/[?&]lite=1/.test(q), off=/[?&]lite=0/.test(q);
+  var cv=(n.userAgent.match(/Chrome\/(\d+)/)||[])[1]|0;
+  var low=(n.deviceMemory&&n.deviceMemory<=4)||(n.hardwareConcurrency&&n.hardwareConcurrency<=4)||(n.connection&&n.connection.saveData);
+  var oldUA=(cv&&cv<110)||typeof window.IntersectionObserver!=='function'||!(window.CSS&&CSS.supports&&CSS.supports('aspect-ratio','1/1'));
+  var mobile=matchMedia('(max-width:900px)').matches||/Android|iPhone|iPad/.test(n.userAgent);
+  if(!off&&(force||oldUA||(mobile&&low))) d.className+=' lite';
+  /* very old browsers: make every scroll-reveal simply show */
+  if(typeof window.IntersectionObserver!=='function'){
+    window.IntersectionObserver=function(cb){ var self=this; self.unobserve=function(){}; self.disconnect=function(){}; self.takeRecords=function(){return [];}; self.observe=function(el){ setTimeout(function(){ cb([{isIntersecting:true,intersectionRatio:1,target:el,boundingClientRect:el.getBoundingClientRect()}],self); },30); }; };
+  }
+}catch(e){}})();
+</script>
 <style>
 :root{
   --paper:#FBFCFB; --mist:#F0F4F2; --ink:#13302A; --muted:#5B6B66; --soft:#8A9994;
@@ -1216,6 +1232,29 @@ details p+p{padding-top:0}
   .h5-scene,.h5-mlab{bottom:30px!important}
   .h5-in{padding-bottom:calc(118.1vw * .76 + 30px)!important}
 }
+/* phones: a slightly taller scene so the car and its label stay inside the picture */
+@media (max-width:760px){
+  .h5-scene{height:131.2vw!important;bottom:0!important}
+  .h5-mlab{bottom:13.12vw!important}
+  .h5-scene .fadebottom{opacity:0!important}
+  .h5-in{padding-bottom:calc(118.1vw * .76 + 13.12vw)!important}
+}
+
+/* ===== lite mode (older / slower phones) ===== */
+.lite [filter],.lite .sky-deco{filter:none!important}
+.lite *{-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.lite .bar{background:rgba(255,255,255,.97)!important}
+.lite .bar.on-night{background:#0F1E30!important}
+.lite .story-vis,.lite .sv-prog{background:var(--paper)!important}
+.lite .pr-desc{display:block!important;max-height:0;overflow:hidden;transition:max-height .45s ease,opacity .35s ease}
+.lite .pr-item.on .pr-desc{max-height:220px}
+.lite .chip2{box-shadow:0 0 0 1px var(--line)!important}
+.lite .pr-screen::after{display:none}
+.lite .m-draw,.lite .ln{transition-duration:.8s!important}
+@supports not (aspect-ratio:1/1){
+  .pr-phone{width:310px}
+  @media (max-width:900px){.pr-phone{width:218px;height:450px}}
+}
 </style>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjMyOTIgNDMgMTAwMCAxMDAwIj48cmVjdCB4PSIzMjkyIiB5PSI0MyIgd2lkdGg9IjEwMDAiIGhlaWdodD0iMTAwMCIgcng9IjIyNSIgZmlsbD0iI0ZGRkZGRiIvPjxyZWN0IHg9IjMyOTYiIHk9IjQ3IiB3aWR0aD0iOTkyIiBoZWlnaHQ9Ijk5MiIgcng9IjIyMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRTJFQUU2IiBzdHJva2Utd2lkdGg9IjgiLz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNzkyIDU0Nikgc2NhbGUoMC44MikgdHJhbnNsYXRlKC0zNzkzIC01NDYpIj48cGF0aCBkPSJNMzQyMCA0MDAgTDM1OTIgODQ2IEwzNzY4IDU1NiBMMzk0NCA4NDYgTDQxNTAgMjY4IiBmaWxsPSJub25lIiBzdHJva2U9IiNGNEExMUUiIHN0cm9rZS13aWR0aD0iMjA1IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNMzk2OCAyNjIgTDQxNjYgMjQ2IEw0MTQ4IDQ1MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMEU4QTZFIiBzdHJva2Utd2lkdGg9IjIwNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PC9nPjwvc3ZnPg==">
 <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAET0lEQVR4nLyXW2wUVRjH/+cyM93dlq4LFFpJW5a2sXJpLKkBRQshYKKNSam3aPSBBzRFg42XeItGH+qjRn3VFw0hNUKJFxKDjRLFiCEB1DRYupbSpGyTQmm7l5mdnfHbabrtsrOX0LK/dndnzvnmfP/zzXdmziexiImJiXJfua+XS9HKGQtyxqttLBHb+R9PJs0QuH02NBV6e1PVptn5bjZ/ENWjnZyJj1Wp1DLGcLvQE8Zo0jYP+TRff1pAJB55VAp5TJUqRwlImKaVsIx9JOI4m5mZqVLK1LOaVNehhOimMZaIG60cHN2qUErqPIXjk/NuKaVy73Lec9OyEI5M4yp9wrM36HgGE/QJ3rEKe4J3w695HLuUTy7YPZKyvRnLwMDIRbx/6lucD49R1ruvnZVlHgy92AvB5lJNctHMiRosEcu28cIPX+Fc+EpO5ykm4zH8fPnf9DljvJ6TuYolEkkYTtiLYXB8ePGpy7KzTSTHfkJi8HPYs1dQDBWqhq3VdUXZBipWZ5xnCLBjE4ge24X4wH4Yf36AaP8uWNf+QTG892AH6ioDBe3WlK/ILcC81EezHl1osBLQf3sFxdBe24TzB97FyWd60H9fAz6sOOdqV+WtyC0ATGRdYF0fpCj8hWJg9NdWU49tUz9inYi5C/DlESBqdrheZA71ZTZYBszQUSdi0KcyuuyZEViTF3DDVrLGoSWPVd7y3AJ4YDN4ZWPWhYkQvTeSevpcp/zQf+2Bfvo1RL5ugxU+s2A7fNT5rWBm1jgdjVvSzwBXASlk09PIVjANc/SEc5i8+jvMi18u9FE04r90k83cG9a8dMT53amGsVm5njZrCqzBq9v2Zg3NDDNhK0IutFBII32tFMtkhqGo3oGy3V8genwPhfly1kBK837I+kcQO9GVbpu2Jf5OVMLf/Cza7u/JnpdpughIaTh1EObId1kXyManKB+OwB0GsXY7Reh0Vo/3sT/AvGtdBbi+/+WGx92a8zhPYbs6T4lycz6PqwBxZzuYpwrLgQx25u3PsQNiFO4nsWSYpLzowC0IoKRqeAIFx3dZsouRtQ/Rlw+3JICV1zr3Lxeiph2evYfJgTenjdywD4XIuwmVDTluA9egbe918kRtfcPdRvNTLu1EYQF5Nv6y7mHXGaoth8B8c9tI5a7nnCfozSjrO50cyEtqW2bb9khOA6HRDF/PaOKBjVA2Hlg8CrQHPiJVlQtNWgDKloMohG1ZIywaj530aGW78xmaQ4fpwfQ9uL+JZv9yprP5waaHYVz4jPYzEWitb4KtWI9CxPT4AIsa0U88iucllBiLds96Uv+UTcWngh7hPUMl2UqUEHoFTMbMaBv3l/lDScvsTpVLKBEG+Upa9vN+j/8/Zxl6NW8f1WpdVC6NU1LiduGEnYpTKl66vJr2TaotoySiOnE1hHhHcLZVCB6kRVKNpUJLjSaVLs+Hrg291bK2JTLf/T8AAAD//+sXnJ8AAAAGSURBVAMAO9ONdinMragAAAAASUVORK5CYII=">
@@ -1344,6 +1383,7 @@ details p+p{padding-top:0}
 
  <g class="objs" transform="translate(714 236)">
  <!-- switchback path -->
+ <rect class="m-ext" x="0" y="899" width="1600" height="120" fill="#D6EEC8"/>
  <g class="roadv">
   <path class="rv-fill" d="M45.0,678.3 55.5,675.3 66.2,672.4 77.3,669.5 88.7,666.8 100.3,664.1 112.3,661.5 124.4,658.9 136.8,656.4 149.3,654.0 161.9,651.5 174.7,649.2 187.5,646.8 200.4,644.5 213.2,642.1 226.1,639.8 238.9,637.5 251.6,635.1 264.3,632.8 276.8,630.4 289.1,628.0 301.3,625.6 313.2,623.1 324.9,620.5 336.3,617.9 347.4,615.2 358.2,612.5 368.7,609.6 378.7,606.7 388.4,603.6 397.7,600.4 406.5,597.1 414.8,593.6 422.7,590.0 430.0,586.1 436.9,582.0 443.2,577.6 448.9,572.9 454.0,567.8 458.4,562.2 462.0,556.1 464.4,550.2 465.9,544.1 466.3,538.0 465.6,532.0 463.9,526.4 461.3,521.2 458.1,516.6 454.4,512.5 450.3,508.8 445.8,505.4 441.0,502.3 436.0,499.4 430.7,496.6 425.2,494.1 419.4,491.6 413.5,489.2 407.4,486.9 401.2,484.6 394.9,482.4 388.5,480.3 382.1,478.1 375.8,476.0 369.4,473.9 363.1,471.8 356.9,469.6 350.9,467.5 345.0,465.3 339.4,463.1 334.0,460.8 329.0,458.5 324.3,456.2 319.9,453.8 316.0,451.5 312.6,449.1 309.6,446.7 307.2,444.4 305.4,442.2 304.0,440.2 303.1,438.2 302.6,436.5 302.5,434.8 302.7,433.4 303.4,431.8 304.7,429.9 306.7,427.6 309.6,425.1 313.3,422.6 317.8,420.0 323.0,417.4 328.8,414.9 335.2,412.4 342.1,409.9 349.5,407.5 357.4,405.2 365.6,402.9 374.2,400.7 383.1,398.5 392.2,396.3 401.6,394.2 411.1,392.0 420.7,389.9 430.4,387.9 440.2,385.8 449.9,383.7 459.6,381.5 469.3,379.4 478.8,377.2 488.2,375.0 497.3,372.7 506.3,370.4 514.9,368.0 523.2,365.5 531.2,363.0 538.8,360.3 546.0,357.5 552.7,354.6 559.0,351.5 564.7,348.3 569.9,344.8 574.4,341.2 577.5,338.4 580.4,335.7 583.3,333.2 586.2,330.6 589.2,328.1 592.1,325.7 595.0,323.3 597.9,320.9 600.9,318.6 603.8,316.3 606.7,314.1 609.6,311.9 612.5,309.8 615.5,307.7 618.4,305.7 621.3,303.7 624.2,301.8 627.1,299.9 630.0,298.1 633.0,296.3 635.9,294.5 638.8,292.9 641.7,291.2 644.6,289.6 647.5,288.1 650.4,286.6 653.4,285.1 656.3,283.7 659.2,282.4 662.1,281.1 665.0,279.8 667.9,278.6 670.8,277.5 673.7,276.4 676.7,275.3 679.6,274.3 682.5,273.4 685.4,272.5 688.3,271.6 691.3,270.8 L688.7,261.2 685.7,261.9 682.6,262.7 679.5,263.6 676.4,264.5 673.3,265.5 670.3,266.5 667.2,267.6 664.1,268.7 661.0,269.9 657.9,271.1 654.8,272.4 651.7,273.7 648.6,275.1 645.6,276.5 642.5,278.0 639.4,279.6 636.3,281.2 633.2,282.8 630.1,284.5 627.0,286.2 624.0,288.0 620.9,289.8 617.8,291.7 614.7,293.6 611.6,295.6 608.5,297.6 605.5,299.7 602.4,301.8 599.3,304.0 596.2,306.2 593.1,308.5 590.1,310.8 587.0,313.2 583.9,315.6 580.8,318.0 577.8,320.5 574.7,323.0 571.6,325.6 568.5,328.3 565.6,330.8 561.9,333.6 557.6,336.3 552.6,339.0 547.0,341.6 540.7,344.1 534.0,346.5 526.7,348.9 519.0,351.1 510.9,353.3 502.4,355.4 493.7,357.5 484.6,359.5 475.3,361.4 465.9,363.3 456.3,365.2 446.6,367.1 436.8,368.9 427.0,370.7 417.2,372.6 407.4,374.5 397.8,376.3 388.3,378.3 378.9,380.2 369.8,382.2 360.9,384.3 352.3,386.5 344.0,388.7 336.0,391.0 328.5,393.5 321.3,396.1 314.6,398.8 308.3,401.8 302.5,404.9 297.2,408.4 292.5,412.2 288.3,416.6 284.9,421.5 282.4,427.1 281.2,433.2 281.4,439.5 282.7,445.1 284.8,450.2 287.6,454.9 291.0,459.1 294.8,463.0 299.0,466.6 303.6,470.0 308.5,473.1 313.6,476.1 319.0,478.9 324.7,481.6 330.5,484.3 336.5,486.8 342.6,489.3 348.9,491.7 355.2,494.0 361.5,496.4 367.9,498.7 374.2,501.0 380.5,503.2 386.6,505.5 392.6,507.8 398.5,510.1 404.1,512.4 409.4,514.7 414.5,517.0 419.2,519.4 423.5,521.7 427.3,524.1 430.7,526.4 433.5,528.7 435.8,530.8 437.5,532.8 438.6,534.5 439.3,536.0 439.6,537.2 439.7,538.4 439.5,539.8 439.0,541.6 438.0,543.9 436.3,546.7 433.9,549.5 430.8,552.5 426.8,555.5 422.2,558.6 416.7,561.7 410.6,564.7 403.7,567.6 396.3,570.5 388.3,573.3 379.7,576.0 370.6,578.6 361.0,581.2 351.0,583.6 340.6,586.0 329.8,588.3 318.6,590.6 307.1,592.8 295.4,594.9 283.4,597.0 271.2,599.1 258.7,601.1 246.1,603.1 233.4,605.1 220.6,607.1 207.7,609.1 194.7,611.1 181.8,613.1 168.8,615.1 155.9,617.2 143.0,619.3 130.3,621.5 117.6,623.7 105.1,626.0 92.8,628.4 80.7,630.9 68.8,633.4 57.2,636.1 45.8,638.8 35.0,641.7 Z" fill="#EDE2C6" filter="url(#h3wash)"/>
   <path d="M45.0,678.3 55.5,675.3 66.2,672.4 77.3,669.5 88.7,666.8 100.3,664.1 112.3,661.5 124.4,658.9 136.8,656.4 149.3,654.0 161.9,651.5 174.7,649.2 187.5,646.8 200.4,644.5 213.2,642.1 226.1,639.8 238.9,637.5 251.6,635.1 264.3,632.8 276.8,630.4 289.1,628.0 301.3,625.6 313.2,623.1 324.9,620.5 336.3,617.9 347.4,615.2 358.2,612.5 368.7,609.6 378.7,606.7 388.4,603.6 397.7,600.4 406.5,597.1 414.8,593.6 422.7,590.0 430.0,586.1 436.9,582.0 443.2,577.6 448.9,572.9 454.0,567.8 458.4,562.2 462.0,556.1 464.4,550.2 465.9,544.1 466.3,538.0 465.6,532.0 463.9,526.4 461.3,521.2 458.1,516.6 454.4,512.5 450.3,508.8 445.8,505.4 441.0,502.3 436.0,499.4 430.7,496.6 425.2,494.1 419.4,491.6 413.5,489.2 407.4,486.9 401.2,484.6 394.9,482.4 388.5,480.3 382.1,478.1 375.8,476.0 369.4,473.9 363.1,471.8 356.9,469.6 350.9,467.5 345.0,465.3 339.4,463.1 334.0,460.8 329.0,458.5 324.3,456.2 319.9,453.8 316.0,451.5 312.6,449.1 309.6,446.7 307.2,444.4 305.4,442.2 304.0,440.2 303.1,438.2 302.6,436.5 302.5,434.8 302.7,433.4 303.4,431.8 304.7,429.9 306.7,427.6 309.6,425.1 313.3,422.6 317.8,420.0 323.0,417.4 328.8,414.9 335.2,412.4 342.1,409.9 349.5,407.5 357.4,405.2 365.6,402.9 374.2,400.7 383.1,398.5 392.2,396.3 401.6,394.2 411.1,392.0 420.7,389.9 430.4,387.9 440.2,385.8 449.9,383.7 459.6,381.5 469.3,379.4 478.8,377.2 488.2,375.0 497.3,372.7 506.3,370.4 514.9,368.0 523.2,365.5 531.2,363.0 538.8,360.3 546.0,357.5 552.7,354.6 559.0,351.5 564.7,348.3 569.9,344.8 574.4,341.2 577.5,338.4 580.4,335.7 583.3,333.2 586.2,330.6 589.2,328.1 592.1,325.7 595.0,323.3 597.9,320.9 600.9,318.6 603.8,316.3 606.7,314.1 609.6,311.9 612.5,309.8 615.5,307.7 618.4,305.7 621.3,303.7 624.2,301.8 627.1,299.9 630.0,298.1 633.0,296.3 635.9,294.5 638.8,292.9 641.7,291.2 644.6,289.6 647.5,288.1 650.4,286.6 653.4,285.1 656.3,283.7 659.2,282.4 662.1,281.1 665.0,279.8 667.9,278.6 670.8,277.5 673.7,276.4 676.7,275.3 679.6,274.3 682.5,273.4 685.4,272.5 688.3,271.6 691.3,270.8" class="rv-edge" fill="none" stroke="#13302A" stroke-width="1.3" opacity=".7" filter="url(#h3ink)"/><path d="M35.0,641.7 45.8,638.8 57.2,636.1 68.8,633.4 80.7,630.9 92.8,628.4 105.1,626.0 117.6,623.7 130.3,621.5 143.0,619.3 155.9,617.2 168.8,615.1 181.8,613.1 194.7,611.1 207.7,609.1 220.6,607.1 233.4,605.1 246.1,603.1 258.7,601.1 271.2,599.1 283.4,597.0 295.4,594.9 307.1,592.8 318.6,590.6 329.8,588.3 340.6,586.0 351.0,583.6 361.0,581.2 370.6,578.6 379.7,576.0 388.3,573.3 396.3,570.5 403.7,567.6 410.6,564.7 416.7,561.7 422.2,558.6 426.8,555.5 430.8,552.5 433.9,549.5 436.3,546.7 438.0,543.9 439.0,541.6 439.5,539.8 439.7,538.4 439.6,537.2 439.3,536.0 438.6,534.5 437.5,532.8 435.8,530.8 433.5,528.7 430.7,526.4 427.3,524.1 423.5,521.7 419.2,519.4 414.5,517.0 409.4,514.7 404.1,512.4 398.5,510.1 392.6,507.8 386.6,505.5 380.5,503.2 374.2,501.0 367.9,498.7 361.5,496.4 355.2,494.0 348.9,491.7 342.6,489.3 336.5,486.8 330.5,484.3 324.7,481.6 319.0,478.9 313.6,476.1 308.5,473.1 303.6,470.0 299.0,466.6 294.8,463.0 291.0,459.1 287.6,454.9 284.8,450.2 282.7,445.1 281.4,439.5 281.2,433.2 282.4,427.1 284.9,421.5 288.3,416.6 292.5,412.2 297.2,408.4 302.5,404.9 308.3,401.8 314.6,398.8 321.3,396.1 328.5,393.5 336.0,391.0 344.0,388.7 352.3,386.5 360.9,384.3 369.8,382.2 378.9,380.2 388.3,378.3 397.8,376.3 407.4,374.5 417.2,372.6 427.0,370.7 436.8,368.9 446.6,367.1 456.3,365.2 465.9,363.3 475.3,361.4 484.6,359.5 493.7,357.5 502.4,355.4 510.9,353.3 519.0,351.1 526.7,348.9 534.0,346.5 540.7,344.1 547.0,341.6 552.6,339.0 557.6,336.3 561.9,333.6 565.6,330.8 568.5,328.3 571.6,325.6 574.7,323.0 577.8,320.5 580.8,318.0 583.9,315.6 587.0,313.2 590.1,310.8 593.1,308.5 596.2,306.2 599.3,304.0 602.4,301.8 605.5,299.7 608.5,297.6 611.6,295.6 614.7,293.6 617.8,291.7 620.9,289.8 624.0,288.0 627.0,286.2 630.1,284.5 633.2,282.8 636.3,281.2 639.4,279.6 642.5,278.0 645.6,276.5 648.6,275.1 651.7,273.7 654.8,272.4 657.9,271.1 661.0,269.9 664.1,268.7 667.2,267.6 670.3,266.5 673.3,265.5 676.4,264.5 679.5,263.6 682.6,262.7 685.7,261.9 688.7,261.2" class="rv-edge" fill="none" stroke="#13302A" stroke-width="1.3" opacity=".7" filter="url(#h3ink)"/>
@@ -1470,10 +1510,13 @@ details p+p{padding-top:0}
  </g> </g>
  <rect class="veil d-only fadebottom" y="840" width="1600" height="60" fill="url(#h5fade)"/>
  <rect class="veil d-only" y="0" width="1600" height="230" fill="url(#h5top)"/>
+
+ <linearGradient id="h5fadeW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".55" stop-color="#FFFFFF" stop-opacity=".75"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="1"/></linearGradient>
+ <rect class="m-ext" x="0" y="890" width="1600" height="112" fill="url(#h5fadeW)"/>
 </svg>
       <div class="h5-mlab" aria-hidden="true">
         <span style="left:50.5%;top:79.2%"><i>01</i><b>Today</b><em>Your first SIP</em></span>
-        <span style="left:71.4%;top:87.8%"><i>02</i><b>First car</b><em>Target 2028</em></span>
+        <span style="left:70%;top:92.8%"><i>02</i><b>First car</b><em>Target 2028</em></span>
         <span style="left:56.8%;top:44%" class="c"><i>04</i><b>Child's education</b><em>Target 2038</em></span>
         <span style="left:86.4%;top:71%"><i>03</i><b>First home</b><em>Target 2030</em></span>
         <span style="left:88.6%;top:23%" class="c"><i>05</i><b>Retire at 55</b><em>Target 2050</em></span>
@@ -3219,5 +3262,7 @@ const HWFilms = (function(){
 <script>(()=>{const t=document.querySelector('.ui-time'); if(!t) return;
   const set=()=>{ const d=new Date(); t.textContent=(d.getHours()%12||12)+':'+String(d.getMinutes()).padStart(2,'0'); };
   set(); setTimeout(()=>{ set(); setInterval(set,60000); },(60-new Date().getSeconds())*1000);})();</script>
+<script>(()=>{const sv=document.querySelector('.h5-scene'); if(!sv) return; const mq=matchMedia('(max-width:760px)');
+  const set=()=>sv.setAttribute('viewBox', mq.matches?'0 0 1600 1000':'0 0 1600 900'); set(); mq.addEventListener&&mq.addEventListener('change',set);})();</script>
 </body>
 </html>
